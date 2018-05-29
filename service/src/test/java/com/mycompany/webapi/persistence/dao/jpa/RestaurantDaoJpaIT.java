@@ -38,7 +38,7 @@ public class RestaurantDaoJpaIT extends JpaBasedDBTestCase {
 
 	@Test
 	public void itShouldGetAListOfRestaurants() {
-		List<Restaurant> restaurants = dao.getAll("");
+		List<Restaurant> restaurants = dao.getList("");
 		Assert.assertNotNull(restaurants);
 		Assert.assertFalse(restaurants.isEmpty());
 		Assert.assertEquals(3, restaurants.size());
@@ -46,7 +46,7 @@ public class RestaurantDaoJpaIT extends JpaBasedDBTestCase {
 
 	@Test
 	public void forNullFilterItShouldGetAllRestaurants() {
-		List<Restaurant> restaurants = dao.getAll(null);
+		List<Restaurant> restaurants = dao.getList(null);
 		Assert.assertNotNull(restaurants);
 		Assert.assertFalse(restaurants.isEmpty());
 		Assert.assertEquals(3, restaurants.size());
@@ -54,7 +54,7 @@ public class RestaurantDaoJpaIT extends JpaBasedDBTestCase {
 
 	@Test
 	public void itShouldGetAllRestaurantsByName() {
-		List<Restaurant> restaurants = dao.getAll("Moreira");
+		List<Restaurant> restaurants = dao.getList("Moreira");
 		Assert.assertNotNull(restaurants);
 		Assert.assertFalse(restaurants.isEmpty());
 		Assert.assertEquals(1, restaurants.size());

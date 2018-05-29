@@ -16,8 +16,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Inject
 	private RestaurantDao dao;
 
-	public List<RestaurantDTO> getRestaurants(final String filter) {
-		List<Restaurant> restaurantList = dao.getAll(filter);
+	public List<RestaurantDTO> getList(final String filter) {
+		List<Restaurant> restaurantList = dao.getList(filter);
 		return restaurantList.stream()
 			.map(restaurant -> new RestaurantDTO(restaurant.getId(), restaurant.getName()))
 			.collect(Collectors.toList());

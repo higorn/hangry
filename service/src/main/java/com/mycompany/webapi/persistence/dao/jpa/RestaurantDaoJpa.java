@@ -19,7 +19,7 @@ public class RestaurantDaoJpa extends AbstractDaoJpa implements RestaurantDao {
 	}
 
 	@Override
-	public List<Restaurant> getAll(final String filter) {
+	public List<Restaurant> getList(final String filter) {
 		Calendar now = Calendar.getInstance();
 		String sql = "SELECT r FROM Restaurant r"
 				+ " WHERE"

@@ -3,9 +3,11 @@ package com.mycompany.webapi.rest;
 
 import com.mycompany.webapi.model.ApiResponse;
 import com.mycompany.webapi.model.dto.RestaurantDTO;
+import com.mycompany.webapi.service.RestaurantService;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,21 +21,23 @@ public class RestaurantRestService {
 
 	private static final Logger logger = Logger.getLogger(RestaurantRestService.class.getName());
 
+	@Inject
+  private RestaurantService service;
+
   @GET
   @Path("/")
   @PermitAll
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getRestaurants(@DefaultValue("*") @QueryParam("filter") String filter) {
+  public Response getRestaurants(@DefaultValue("") @QueryParam("filter") String filter) {
 
     logger.info("Start getRestaurants");
-    /*
-     * TODO:
-     * List<Restaurant> restaurantList = service.getAll(filter);
-     */
-    List<RestaurantDTO> restaurantList = new ArrayList<>();
+
+    List<RestaurantDTO> restaurantList = service.getList(filter);
+
+/*    List<RestaurantDTO> restaurantList = new ArrayList<>();
     restaurantList.add(new RestaurantDTO(1, "Lanches da Gringa"));
     restaurantList.add(new RestaurantDTO(2, "Casa di Paolo"));
-    restaurantList.add(new RestaurantDTO(3, "Moreira Burger"));
+    restaurantList.add(new RestaurantDTO(3, "Moreira Burger"));*/
 
     logger.info("End getRestaurants");
 

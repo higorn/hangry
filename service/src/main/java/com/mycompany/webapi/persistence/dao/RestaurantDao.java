@@ -6,5 +6,5 @@ import com.mycompany.webapi.model.entity.Restaurant;
 
 public interface RestaurantDao {
 
-	List<Restaurant> getAll(String filter);
+	List<Restaurant> getList(String filter);
 }

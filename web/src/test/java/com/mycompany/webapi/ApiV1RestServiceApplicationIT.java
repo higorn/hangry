@@ -7,6 +7,8 @@ package com.mycompany.webapi;
 
 import com.mycompany.webapi.exception.DefaultExceptionHandler;
 import com.mycompany.webapi.model.ApiResponse;
+import com.mycompany.webapi.persistence.dao.RestaurantDao;
+import com.mycompany.webapi.persistence.dao.jpa.AbstractDaoJpa;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.test.TestPortProvider;
@@ -14,6 +16,7 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -30,13 +33,15 @@ import static org.junit.Assert.assertNotNull;
  * @author higor
  */
 @RunWith(WeldJUnit4Runner.class)
-public class ApiV1RestServiceApplicationIT {
+public class ApiV1RestServiceApplicationIT extends JpaBasedDBTestCase {
   private static final String API_V1_PATH = "/mycompany/api/v1";
 
   @Inject
   private ApiV1RestServiceApplication application;
   @Inject
   private DefaultExceptionHandler exceptionHandler;
+  @Inject
+  private RestaurantDao dao;
   private static UndertowJaxrsServer server;
   private Client client;
 
@@ -46,8 +51,19 @@ public class ApiV1RestServiceApplicationIT {
     server = new UndertowJaxrsServer().start();
   }
 
+  @Override
+  protected EntityManager getEntityManager() {
+    return ((AbstractDaoJpa)dao).getEntityManager();
+  }
+
+  @Override
+  protected String getDataSetPath() {
+    return "/dataset/db.xml";
+  }
+
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
+    super.setUp();
     ResteasyDeployment deployment = new ResteasyDeployment();
     deployment.setApplication(application);
 //    deployment.setProviders(new ArrayList<>(Arrays.asList(new Object[]{exceptionHandler, interceptor})));
@@ -85,7 +101,20 @@ public class ApiV1RestServiceApplicationIT {
     List<LinkedHashMap> restaurantList = apiResponse.getData();
     assertNotNull(restaurantList);
     assertEquals(3, restaurantList.size());
-    assertEquals(Integer.valueOf(1), restaurantList.get(0).get("id"));
-    assertEquals("Lanches da Gringa", restaurantList.get(0).get("name"));
+  }
+
+  @Test
+  public void itShouldReturnAFilteredListOfRestaurants() {
+    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurant?filter=moreira"))
+        .request(MediaType.APPLICATION_JSON)
+        .get();
+    assertNotNull(response);
+    assertEquals(200, response.getStatus());
+    ApiResponse<List<LinkedHashMap>> apiResponse = response.readEntity(ApiResponse.class);
+    assertNotNull(apiResponse);
+    List<LinkedHashMap> restaurantList = apiResponse.getData();
+    assertNotNull(restaurantList);
+    assertEquals(1, restaurantList.size());
+    assertEquals("Moreira Burger", restaurantList.get(0).get("name"));
   }
 }

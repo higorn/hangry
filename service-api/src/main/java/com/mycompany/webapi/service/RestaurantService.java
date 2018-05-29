@@ -6,5 +6,5 @@ import com.mycompany.webapi.model.dto.RestaurantDTO;
 
 
 public interface RestaurantService {
-	List<RestaurantDTO> getRestaurants(String filter);
+	List<RestaurantDTO> getList(String filter);
 }
