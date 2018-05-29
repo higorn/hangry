@@ -9,7 +9,11 @@
 	<artifactId>myproject-ear</artifactId>
 	<packaging>ear</packaging>
 	<name>${project.artifactId}</name>
-	
+
+	<properties>
+		<ds.xml>myproject-ds.xml</ds.xml>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.mycompany.webapi</groupId>
@@ -32,7 +36,42 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.parent.artifactId}</finalName>
     <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-app-ds-xml</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+
+							<!--
+                Comment out this tag if you have deployed the *-ds.xml file to the appserver's deploy folder
+              -->
+							<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+
+							<!--
+                Uncomment this tag if you have deployed the *-ds.xml file to the appserver's deploy folder
+                <outputDirectory>${project.build.directory}</outputDirectory>
+              -->
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>${ds.xml}</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
@@ -47,6 +86,11 @@
               <contextRoot>/${project.parent.artifactId}</contextRoot>
             </webModule>
           </modules>
+					<jboss>
+						<data-sources>
+							<data-source>${ds.xml}</data-source>
+						</data-sources>
+					</jboss>
         </configuration>
       </plugin>
     </plugins>
