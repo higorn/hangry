@@ -5,7 +5,7 @@
  */
 package com.mycompany.webapi;
 
-import com.mycompany.webapi.rest.SomeRestService;
+import com.mycompany.webapi.rest.RestaurantRestService;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ import java.util.Set;
 @ApplicationPath("/v1")
 public class ApiV1RestServiceApplication extends Application {
   @Inject
-  private SomeRestService someRestService;
+  private RestaurantRestService restaurantRestService;
   private Set<Object> singletons = new HashSet<>();
 
   public ApiV1RestServiceApplication() {
@@ -28,7 +28,7 @@ public class ApiV1RestServiceApplication extends Application {
 
   @PostConstruct
   public void init() {
-    singletons.add(someRestService);
+    singletons.add(restaurantRestService);
   }
 
   @Override

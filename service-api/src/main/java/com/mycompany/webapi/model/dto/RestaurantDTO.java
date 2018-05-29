@@ -1,14 +1,14 @@
 package com.mycompany.webapi.model.dto;
 
-public class SomethingDTO {
+public class RestaurantDTO {
 
 	private Integer id;
 	private String name;
 
-	public SomethingDTO() {
+	public RestaurantDTO() {
 	}
 
-	public SomethingDTO(final Integer id, final String nome) {
+	public RestaurantDTO(final Integer id, final String nome) {
 		this.id = id;
 		this.name = nome;
 	}

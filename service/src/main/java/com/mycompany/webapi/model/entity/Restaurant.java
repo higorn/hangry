@@ -6,23 +6,23 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity(name = "Something")
-@Table(name = "something")
-@SequenceGenerator(name = "sequenceSomething", sequenceName = "seq_something")
-public class Something {
+@Entity(name = "Restaurant")
+@Table(name = "restaurant")
+@SequenceGenerator(name = "sequenceRestaurant", sequenceName = "seq_restaurant")
+public class Restaurant {
 
 	@Id
-	@GeneratedValue(generator = "sequenceSomething")
+	@GeneratedValue(generator = "sequenceRestaurant")
 	private Integer id;
 
 	private String name;
 
-	public Something() {
+	public Restaurant() {
 		super();
 	}
 
-	public Something(final Integer codigo, final String name) {
-		this.id = codigo;
+	public Restaurant(final Integer id, final String name) {
+		this.id = id;
 		this.name = name;
 	}
 	
@@ -49,10 +49,10 @@ public class Something {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Something)) {
+		if (!(object instanceof Restaurant)) {
 			return false;
 		}
-		Something other = (Something) object;
+		Restaurant other = (Restaurant) object;
 		if (this.id == null || other.id == null) {
 			return false;
 		}
@@ -74,6 +74,6 @@ public class Something {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "Id Something: " + this.id;
+		return "Id Restaurant: " + this.id;
 	}
 }

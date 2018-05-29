@@ -74,18 +74,18 @@ public class ApiV1RestServiceApplicationIT {
   }
 
   @Test
-  public void itShouldReturnSomethingList() {
-    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/something"))
+  public void itShouldReturnAListOfRestaurants() {
+    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurant"))
         .request(MediaType.APPLICATION_JSON)
         .get();
     assertNotNull(response);
     assertEquals(200, response.getStatus());
     ApiResponse<List<LinkedHashMap>> apiResponse = response.readEntity(ApiResponse.class);
     assertNotNull(apiResponse);
-    List<LinkedHashMap> somethingList = apiResponse.getData();
-    assertNotNull(somethingList);
-    assertEquals(3, somethingList.size());
-    assertEquals(Integer.valueOf(1), somethingList.get(0).get("id"));
-    assertEquals("anything1", somethingList.get(0).get("name"));
+    List<LinkedHashMap> restaurantList = apiResponse.getData();
+    assertNotNull(restaurantList);
+    assertEquals(3, restaurantList.size());
+    assertEquals(Integer.valueOf(1), restaurantList.get(0).get("id"));
+    assertEquals("Lanches da Gringa", restaurantList.get(0).get("name"));
   }
 }
