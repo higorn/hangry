@@ -4,3 +4,4 @@ target
 **/.setings
 *.iml
 **/*.iml
+**/node_modules

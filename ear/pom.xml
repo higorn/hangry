@@ -86,11 +86,11 @@
               <contextRoot>/${project.parent.artifactId}</contextRoot>
             </webModule>
           </modules>
-					<jboss>
+<!--					<jboss>
 						<data-sources>
 							<data-source>${ds.xml}</data-source>
 						</data-sources>
-					</jboss>
+					</jboss>-->
         </configuration>
       </plugin>
     </plugins>
