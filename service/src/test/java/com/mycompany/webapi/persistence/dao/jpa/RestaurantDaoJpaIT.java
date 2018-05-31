@@ -1,19 +1,17 @@
 package com.mycompany.webapi.persistence.dao.jpa;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
 import com.mycompany.webapi.JpaBasedDBTestCase;
 import com.mycompany.webapi.WeldJUnit4Runner;
+import com.mycompany.webapi.model.entity.Restaurant;
+import com.mycompany.webapi.persistence.dao.RestaurantDao;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.mycompany.webapi.model.entity.Restaurant;
-import com.mycompany.webapi.persistence.dao.RestaurantDao;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import java.util.List;
 
 @RunWith(WeldJUnit4Runner.class)
 public class RestaurantDaoJpaIT extends JpaBasedDBTestCase {
@@ -60,4 +58,25 @@ public class RestaurantDaoJpaIT extends JpaBasedDBTestCase {
 		Assert.assertEquals(1, restaurants.size());
 	}
 
+	@Test
+	public void itShouldGetRestaurantById() {
+	  Restaurant restaurant = dao.findById(1);
+	  Assert.assertNotNull(restaurant);
+	  Assert.assertEquals("Xis da Gringa", restaurant.getName());
+  }
+
+  @Test
+  public void itShouldUpdateRestaurant() {
+    Restaurant restaurant = dao.findById(1);
+
+    Assert.assertNotNull(restaurant);
+    Assert.assertEquals("Xis da Gringa", restaurant.getName());
+    Assert.assertEquals(Integer.valueOf(0), restaurant.getLikes());
+
+    restaurant.setLikes(1);
+    Restaurant restaurantUpdated = dao.update(restaurant);
+
+    restaurant = dao.findById(1);
+    Assert.assertEquals(restaurantUpdated.getLikes(), restaurant.getLikes());
+  }
 }

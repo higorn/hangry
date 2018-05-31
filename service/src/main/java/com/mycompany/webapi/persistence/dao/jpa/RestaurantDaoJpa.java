@@ -1,24 +1,28 @@
 package com.mycompany.webapi.persistence.dao.jpa;
 
-import java.util.Calendar;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import com.mycompany.webapi.model.entity.Restaurant;
 import com.mycompany.webapi.persistence.config.DataSourceQualifier;
 import com.mycompany.webapi.persistence.dao.RestaurantDao;
 
-public class RestaurantDaoJpa extends AbstractDaoJpa implements RestaurantDao {
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.Calendar;
+import java.util.List;
+
+public class RestaurantDaoJpa extends AbstractDaoJpa<Restaurant> implements RestaurantDao {
 
 	@Inject
 	public RestaurantDaoJpa(@DataSourceQualifier final EntityManager entityManager) {
 		super(entityManager);
 	}
 
-	@Override
+  @Override
+  protected Class getEntityClass() {
+    return Restaurant.class;
+  }
+
+  @Override
 	public List<Restaurant> getList(final String filter) {
 		Calendar now = Calendar.getInstance();
 		String sql = "SELECT r FROM Restaurant r"
@@ -32,4 +36,8 @@ public class RestaurantDaoJpa extends AbstractDaoJpa implements RestaurantDao {
 		return query.getResultList();
 	}
 
+  @Override
+  public List<Restaurant> findAll(final String filter) {
+    return getList(filter);
+  }
 }

@@ -1,10 +1,10 @@
 package com.mycompany.webapi.persistence.dao;
 
-import java.util.List;
-
 import com.mycompany.webapi.model.entity.Restaurant;
 
-public interface RestaurantDao {
+import java.util.List;
+
+public interface RestaurantDao extends Dao<Restaurant> {
 
 	List<Restaurant> getList(String filter);
 }

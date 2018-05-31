@@ -4,6 +4,7 @@ public class RestaurantDTO {
 
 	private Integer id;
 	private String name;
+	private Integer likes;
 
 	public RestaurantDTO() {
 	}
@@ -12,8 +13,14 @@ public class RestaurantDTO {
 		this.id = id;
 		this.name = nome;
 	}
-	
-	public Integer getId() {
+
+  public RestaurantDTO(Integer id, String name, Integer likes) {
+    this.id = id;
+    this.name = name;
+    this.likes = likes;
+  }
+
+  public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
@@ -25,4 +32,10 @@ public class RestaurantDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+  public Integer getLikes() {
+    return likes;
+  }
+  public void setLikes(Integer likes) {
+    this.likes = likes;
+  }
 }

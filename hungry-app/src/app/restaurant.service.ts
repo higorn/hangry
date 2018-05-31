@@ -15,36 +15,33 @@ const RESTAURANTS: Restaurant[] = [
   providedIn: 'root'
 })
 export class RestaurantService {
-  private url = '/myproject/api/v1/restaurant'
+  private baseUrl = '/myproject/api/v1/restaurants'
 
   constructor(
     private http: HttpClient,
   ) { }
 
-/*  getRestaurants(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(this.url)
-      .pipe(
-        tap(resp => console.log(resp))
-      );*/
-/*      .pipe(
-        tap(resp => {
-          console.log(resp);
-          // return restaurants.data as Restaurant[];
-          return resp;
-        }),
-        catchError(this.handleError('getRestaurants', ApiResponse))
-      );*/
-  // }
-
   getRestaurants(): Observable<Restaurant[]> {
-    return this.http.get(this.url)
+    return this.http.get(this.baseUrl)
       .pipe(
         map(resp => {
           console.log(resp);
           return resp['data'] as Restaurant[];
+        }),
+        catchError(this.handleError('getRestaurants', []))
+      );
+  }
+
+  update(restaurant: Restaurant): Observable<number> {
+    return this.http.put(`${this.baseUrl}/like/${restaurant.id}`, null)
+      .pipe(
+        map(response => {
+          console.log(response);
+          return response['data'] as number;
         })
       );
   }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

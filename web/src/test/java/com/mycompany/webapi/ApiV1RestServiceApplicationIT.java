@@ -26,9 +26,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 /**
  * @author higor
  */
@@ -91,7 +88,7 @@ public class ApiV1RestServiceApplicationIT extends JpaBasedDBTestCase {
 
   @Test
   public void itShouldReturnAListOfRestaurants() {
-    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurant"))
+    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurants"))
         .request(MediaType.APPLICATION_JSON)
         .get();
     assertNotNull(response);
@@ -105,7 +102,7 @@ public class ApiV1RestServiceApplicationIT extends JpaBasedDBTestCase {
 
   @Test
   public void itShouldReturnAFilteredListOfRestaurants() {
-    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurant?filter=moreira"))
+    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurants?filter=moreira"))
         .request(MediaType.APPLICATION_JSON)
         .get();
     assertNotNull(response);
@@ -116,5 +113,18 @@ public class ApiV1RestServiceApplicationIT extends JpaBasedDBTestCase {
     assertNotNull(restaurantList);
     assertEquals(1, restaurantList.size());
     assertEquals("Moreira Burger", restaurantList.get(0).get("name"));
+  }
+  @Test
+  public void itShouldVoteRestaurant() {
+//    RestaurantDTO restaurant = new RestaurantDTO(1, "Xis da Gringa", 1);
+//    Entity<RestaurantDTO> entity = Entity.json(restaurant);
+    Response response = client.target(TestPortProvider.generateURL(API_V1_PATH + "/restaurants/like/1"))
+        .request(MediaType.APPLICATION_JSON)
+        .put(null);
+    assertNotNull(response);
+    assertEquals(200, response.getStatus());
+    ApiResponse<Integer> apiResponse = response.readEntity(ApiResponse.class);
+    assertNotNull(apiResponse);
+    assertEquals(Integer.valueOf(1), apiResponse.getData());
   }
 }

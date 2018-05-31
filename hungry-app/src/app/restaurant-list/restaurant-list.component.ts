@@ -21,6 +21,9 @@ export class RestaurantListComponent implements OnInit {
 
   onSelect(restaurant: Restaurant) {
     this.selected = restaurant;
+    this.service.update(restaurant).subscribe(resp => {
+      restaurant.likes = resp;
+    });
   }
 
   private getRestaurants() {

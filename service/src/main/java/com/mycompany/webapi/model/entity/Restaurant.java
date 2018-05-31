@@ -9,13 +9,14 @@ import javax.persistence.Table;
 @Entity(name = "Restaurant")
 @Table(name = "restaurant")
 @SequenceGenerator(name = "sequenceRestaurant", sequenceName = "seq_restaurant")
-public class Restaurant {
+public class Restaurant implements Modelable {
 
 	@Id
 	@GeneratedValue(generator = "sequenceRestaurant")
 	private Integer id;
 
 	private String name;
+	private Integer likes;
 
 	public Restaurant() {
 		super();
@@ -25,8 +26,14 @@ public class Restaurant {
 		this.id = id;
 		this.name = name;
 	}
-	
-	public Integer getId() {
+
+  public Restaurant(Integer id, String name, Integer likes) {
+    this.id = id;
+    this.name = name;
+    this.likes = likes;
+  }
+
+  public Integer getId() {
 		return this.id;
 	}
 
@@ -42,7 +49,15 @@ public class Restaurant {
 		this.name = name;
 	}
 
-	/**
+  public Integer getLikes() {
+    return likes;
+  }
+
+  public void setLikes(Integer likes) {
+    this.likes = likes;
+  }
+
+  /**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object object) {

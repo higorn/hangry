@@ -1,6 +1,11 @@
 <h2>Restaurantes</h2>
 <ul>
-  <li *ngFor="let restaurant of restaurants" (click)="onSelect(restaurant)">
-    <span>{{restaurant.name}}</span>
+  <li *ngFor="let restaurant of restaurants" >
+    <div>
+      <span>{{restaurant.name}}</span>
+    </div>
+    <div>
+      <button (click)="onSelect(restaurant)">like ({{restaurant.likes}})</button>
+    </div>
   </li>
 </ul>

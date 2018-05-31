@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-@Path("/restaurant")
+@Path("/restaurants")
 public class RestaurantRestService {
 
 	private static final Logger logger = Logger.getLogger(RestaurantRestService.class.getName());
@@ -103,21 +103,17 @@ public class RestaurantRestService {
   @RolesAllowed({"user", "admin"})
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-	public Response updateRestaurant(@PathParam("id") final Integer id) {
+	public Response updateRestaurant(@PathParam("id") final Integer id, final RestaurantDTO restaurant) {
 
     logger.info("Start updateRestaurant");
 
-    /*
-     * TODO:
-     * restaurant = service.update(restaurant);
-     */
-    RestaurantDTO restaurant = new RestaurantDTO(id, "anything");
+    RestaurantDTO restaurantUpdated = service.update(id, restaurant);
 
     logger.info("End updateRestaurant");
 
-    Response.Status status = Response.Status.ACCEPTED;
+    Response.Status status = Response.Status.OK;
     Response response = Response.status(status)
-        .entity(new ApiResponse<>(status.getStatusCode(), status.toString(), restaurant))
+        .entity(new ApiResponse<>(status.getStatusCode(), status.toString(), restaurantUpdated))
         .type(MediaType.APPLICATION_JSON)
         .build();
     return response;
@@ -145,4 +141,25 @@ public class RestaurantRestService {
         .build();
     return response;
 	}
+
+  @PUT
+  @Path("/like/{id}")
+  @PermitAll
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response like(@PathParam("id") final Integer id) {
+
+    logger.info("Start updateRestaurant");
+
+    Integer likes = service.like(id);
+
+    logger.info("End updateRestaurant");
+
+    Response.Status status = Response.Status.OK;
+    Response response = Response.status(status)
+        .entity(new ApiResponse<>(status.getStatusCode(), status.toString(), likes))
+        .type(MediaType.APPLICATION_JSON)
+        .build();
+    return response;
+  }
 }
